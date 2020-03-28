@@ -14,12 +14,12 @@ namespace Devscord.Progressor.UnitTests
         public void ShouldSaveImageOnDrive()
         {
             //Arrange
-            var itemsCount = 100;
+            var itemsCount = 60;
 
             var items = new List<ChartItem>();
             for (int i = 0; i < itemsCount; i++)
             {
-                var item = new ChartItem(DateTime.Now.AddDays(i).ToShortDateString(), new Random().Next(0, 200));
+                var item = new ChartItem(DateTime.Now.AddDays(i).ToShortDateString(), new Random().Next(0, 500));
                 items.Add(item);
             }
 
