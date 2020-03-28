@@ -10,29 +10,29 @@ namespace Devscord.Progressor.UnitTests
     public class ProgressorTests
     {
         [Test]
-        [Ignore("")]
+        //[Ignore("")]
         public void ShouldSaveImageOnDrive()
         {
             //Arrange
-            var chartData = new ChartData 
-            { 
-                Items = new List<ChartItem> 
-                { 
-                    new ChartItem(DateTime.UtcNow.AddDays(-2).ToShortDateString(), 1),
-                    new ChartItem(DateTime.UtcNow.AddDays(-1).ToShortDateString(), 2),
-                    new ChartItem(DateTime.UtcNow.AddDays(0).ToShortDateString(), 3),
-                    new ChartItem(DateTime.UtcNow.AddDays(1).ToShortDateString(), 2),
-                } 
-            };
-            var configuration = new ResultImageConfiguration { Width = 1280, Height = 720, Path = $@"C:\Temp\{Guid.NewGuid()}.png" };
+            var itemsCount = 100;
+
+            var items = new List<ChartItem>();
+            for (int i = 0; i < itemsCount; i++)
+            {
+                var item = new ChartItem(DateTime.Now.AddDays(i).ToShortDateString(), new Random().Next(0, 200));
+                items.Add(item);
+            }
+
+            var chartData = new ChartData { Items = items };
+            var configuration = new ResultImageConfiguration { Width = 16 * itemsCount, Height = 9 * itemsCount, Path = $@"Temp\{Guid.NewGuid()}.png" };
 
             //Act
-            ChartGenerator.Bar(chartData, configuration);
+            using var result = ChartGenerator.Bar(chartData, configuration);
 
             //Assert
-            var fileInfo = new FileInfo(configuration.Path);
+            var fileInfo = new FileInfo(result.Path);
             Assert.That(fileInfo.Exists, Is.True);
-            Assert.That(fileInfo.Length, Is.GreaterThan(128));
+            Assert.That(fileInfo.Length, Is.GreaterThan(1024));
         }
     }
 }

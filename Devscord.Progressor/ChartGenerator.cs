@@ -6,10 +6,21 @@ namespace Devscord.Progressor
 {
     public static class ChartGenerator
     {
-        public static string Bar(ChartData chartData, ResultImageConfiguration configuration)
+        private static RenderingService _renderingService;
+
+        internal static RenderingService RenderingService
         {
-            new RenderingService(configuration).RenderBar(chartData);
-            return default;
+            get
+            {
+                if (_renderingService == null)
+                    _renderingService = new RenderingService();
+                return _renderingService;
+            }
+        }
+
+        public static ChartFile Bar(ChartData chartData, ResultImageConfiguration configuration)
+        {
+            return RenderingService.RenderBar(chartData, configuration);
         }
     }
 }
